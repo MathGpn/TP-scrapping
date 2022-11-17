@@ -1,7 +1,8 @@
 from scrapper import Scrap
 import unittest
 
-#les tests sont effectués pour la vidéo de Pierre Niney et HugoDécrypte
+'''les tests sont effectués pour la vidéo de Pierre Niney et HugoDécrypte
+'''
 
 class TestScrapMethods(unittest.TestCase):
 
@@ -24,8 +25,10 @@ class TestScrapMethods(unittest.TestCase):
         obj = Scrap("https://www.youtube.com/watch?v=fmsoym8I-3o&t=2363s")
         print("Testons la méthode get_description :", obj.get_description())
 
-    # def test_links(self : object):
-    #     print("Testons la méthode get_description :", Scrap.get_links(self, ))
+    def test_links(self : object):
+        expected = []
+        obj = Scrap("https://www.youtube.com/watch?v=fmsoym8I-3o&t=2363s")
+        self.assertEqual(obj.get_links(), expected)
 
     def test_id(self : object):
         obj = Scrap("https://www.youtube.com/watch?v=fmsoym8I-3o&t=2363s")
@@ -35,7 +38,3 @@ class TestScrapMethods(unittest.TestCase):
     def test_comms(self : object):
         obj = Scrap("https://www.youtube.com/watch?v=fmsoym8I-3o&t=2363s")
         print("Testons la méthode get_commentaires :", obj.get_comms())
-
-#python3 -m unittest tests.py
-#coverage run -m unittest tests.py
-#pytest --cov=. tests.py
