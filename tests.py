@@ -35,6 +35,7 @@ class TestScrapMethods(unittest.TestCase):
         expected = "fmsoym8I-3o"
         self.assertEqual(obj.get_video_id(), expected)
 
-    def test_comms(self : object):
-        obj = Scrap("https://www.youtube.com/watch?v=fmsoym8I-3o&t=2363s")
-        print("Testons la méthode get_commentaires :", obj.get_comms())
+    # def test_comms(self : object):
+    #     obj = Scrap("https://www.youtube.com/watch?v=fmsoym8I-3o&t=2363s")
+    #     print("Testons la méthode get_commentaires :", obj.get_comms())
+
