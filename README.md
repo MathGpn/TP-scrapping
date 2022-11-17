@@ -11,8 +11,15 @@ Il est donc essentiel d'avoir un webdriver_manager.
 
 -Le fichier "tests.py" nous permet de tester les différentes méthodes de la classe "Scrap" afin de s'assurer du bon fonctionnement de cette dernière sur un exemple concrêt (la vidéo d'Hugo Décrypte avec Pierre Niney). 
 
-# Exécution des tests unitaires avec la commande : python3 -m unittest tests.py
+# Exécution des tests unitaires avec la commande : pytest tests.py
 # Exécution du coverage des tests avec la commande : pytest --cov=. tests.py
 
-Remarque 1 : L'exécution du scrapping est déjà assez coûteuse pour 2 vidéos (50sec)
-Remarque 2 : Il arrive rarement que les données n'aient pas le temps d'être scrappées 
+Remarque 1 : Commencez par utiliser un "input.json" composé seulement de la vidéo d'Hugo Décrypte et de Pierre Niney :
+({
+    "videos_id": [
+    "fmsoym8I-3o"
+    ]
+})
+pour tester le programme en entier (temps d'exécution d'environ 10sec) ainsi que les tests unitaires.
+Remarque 2 : Il arrive que les données n'aient pas le temps d'être scrappées.
+Remarque 3 : Le coverage obtenu est situé entre 40 et 100% (à cause de quelques bugs).
