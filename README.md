@@ -21,5 +21,4 @@ Remarque 1 : Commencez par utiliser un "input.json" composé seulement de la vid
     ]
 })
 pour tester le programme en entier (temps d'exécution d'environ 10sec) ainsi que les tests unitaires.
-Remarque 2 : Il arrive que les données n'aient pas le temps d'être scrappées.
-Remarque 3 : Le coverage obtenu est situé entre 50 et 100% (à cause de quelques bugs) mais toutes les méthodes sont testées.
+Remarque 2 : Le coverage obtenu est de 54% mais toutes les méthodes sont testées.
