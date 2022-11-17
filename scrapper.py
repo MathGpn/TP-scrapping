@@ -14,7 +14,7 @@ class Scrap:
         s=Service(ChromeDriverManager().install())
         options = Options()
         options.add_argument('--headless')
-        options.add_argument('--disable-gpu')
+        #options.add_argument('--disable-gpu')
         self.driver = webdriver.Chrome(service=s, chrome_options=options)
         time.sleep(2)
         self.driver.get(web)
