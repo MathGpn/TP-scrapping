@@ -14,7 +14,7 @@ class Scrap:
         s=Service(ChromeDriverManager().install())
         options = Options()
         options.add_argument('--headless')
-        #options.add_argument('--disable-gpu')
+        options.add_argument('--disable-gpu')
         self.driver = webdriver.Chrome(service=s, chrome_options=options)
         time.sleep(2)
         self.driver.get(web)
@@ -31,6 +31,10 @@ class Scrap:
 
     def get_likes(self):
         raw_like = self.soup.find("button", {"class": "yt-spec-button-shape-next yt-spec-button-shape-next--tonal yt-spec-button-shape-next--mono yt-spec-button-shape-next--size-m yt-spec-button-shape-next--icon-leading yt-spec-button-shape-next--segmented-start"})
+        while raw_like == None:
+            time.sleep(1)
+            self.soup = BeautifulSoup(self.driver.page_source, 'html.parser')
+            raw_like = self.soup.find("button", {"class": "yt-spec-button-shape-next yt-spec-button-shape-next--tonal yt-spec-button-shape-next--mono yt-spec-button-shape-next--size-m yt-spec-button-shape-next--icon-leading yt-spec-button-shape-next--segmented-start"})
         like = raw_like['aria-label']
         if like[0] == 'C':
             nb_like = like.split("Cliquez sur \"J'aime\" pour cette vidéo comme ")[1].split(" autres internautes.")[0]
@@ -46,15 +50,19 @@ class Scrap:
         element = self.driver.find_element(By.XPATH, "//*[@id=\"expand\"]")
         element.click()
         time.sleep(1)
-        soup = BeautifulSoup(self.driver.page_source, 'html.parser')
-        descDiv = soup.find("yt-formatted-string", {"class": "style-scope ytd-text-inline-expander"})
+        self.soup = BeautifulSoup(self.driver.page_source, 'html.parser')
+        descDiv = self.soup.find("yt-formatted-string", {"class": "style-scope ytd-text-inline-expander"})
         return descDiv.text
 
     def get_links(self):
         self.driver.get(self.web)
         time.sleep(1)
-        soup = BeautifulSoup(self.driver.page_source, 'html.parser')
-        descDiv = soup.find("yt-formatted-string", {"class": "style-scope ytd-text-inline-expander"})
+        self.soup = BeautifulSoup(self.driver.page_source, 'html.parser')
+        descDiv = self.soup.find("yt-formatted-string", {"class": "style-scope ytd-text-inline-expander"})
+        while descDiv == None:
+            time.sleep(1)
+            self.soup = BeautifulSoup(self.driver.page_source, 'html.parser')
+            descDiv = self.soup.find("yt-formatted-string", {"class": "style-scope ytd-text-inline-expander"})
         listLiens = []
         liens = descDiv.find_all("a")
         for lien in liens:
@@ -74,12 +82,12 @@ class Scrap:
         commentaires = []
         element = self.driver.find_element(By.XPATH, "//*[@id=\"comments\"]")
         self.driver.execute_script("arguments[0].scrollIntoView();", element)
-        soup = BeautifulSoup(self.driver.page_source, 'html.parser')
-        commentsList = soup.find_all("ytd-comment-thread-renderer", {"class": "style-scope ytd-item-section-renderer"}, limit = N)
+        self.soup = BeautifulSoup(self.driver.page_source, 'html.parser')
+        commentsList = self.soup.find_all("ytd-comment-thread-renderer", {"class": "style-scope ytd-item-section-renderer"}, limit = N)
         while commentsList == []:
             time.sleep(1)
-            soup = BeautifulSoup(self.driver.page_source, 'html.parser')
-            commentsList = soup.find_all("ytd-comment-thread-renderer", {"class": "style-scope ytd-item-section-renderer"}, limit = N)
+            self.soup = BeautifulSoup(self.driver.page_source, 'html.parser')
+            commentsList = self.soup.find_all("ytd-comment-thread-renderer", {"class": "style-scope ytd-item-section-renderer"}, limit = N)
         for comment in commentsList:
             commentaires.append(comment.find("yt-formatted-string", {"id": "content-text"}).text)
         return commentaires
@@ -105,7 +113,6 @@ def main():
 
     data= []
     for url in url_tab:
-        #result1, result2 = get_page(url)
         obj = Scrap(url)
         titre = obj.get_title()
         auteur = obj.get_author()
